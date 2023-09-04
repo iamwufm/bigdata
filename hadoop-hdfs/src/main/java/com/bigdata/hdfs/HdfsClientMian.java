@@ -30,7 +30,7 @@ public class HdfsClientMian {
          *      构造完成之后，还可以通过conf.set("p","v")覆盖用户配置文件中的参数值
          */
         Configuration conf = new Configuration();
-        conf.set("Configuration","2"); // 副本数设置为2
+        conf.set("dfs.replication","2"); // 副本数设置为2
         conf.set("dfs.blocksize","64m");// 块大小为64m
 
 

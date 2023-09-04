@@ -6,6 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.Arrays;
 
@@ -21,11 +25,10 @@ import java.util.Arrays;
  * 5.查看文件
  * 6.删除文件夹
  * <p>
- * <p>
  * 准备工作
  * 1./test不存在
- * 2.准备三份数据：C:/Alearning/data/log/access.log.1
- * C:/Alearning/data/log/access.log.3
+ * 2.准备三份数据：C:/Alearning/data/logs/accesslog/access.log.1
+ * C:/Alearning/data/logs/accesslog/access.log.3
  * C:/Alearning/software/jdk/jdk-8u144-linux-x64.tar.gz
  */
 public class HdfsClientTestMian {
@@ -64,8 +67,8 @@ public class HdfsClientTestMian {
     public void testCopyFromLocalFile() throws Exception {
 
         // 上传文件/test
-        fs.copyFromLocalFile(new Path("C:/Alearning/data/log/access.log.1"), new Path("/test"));
-        fs.copyFromLocalFile(new Path("C:/Alearning/data/log/access.log.3"), new Path("/test"));
+        fs.copyFromLocalFile(new Path("C:/Alearning/data/logs/accesslog/access.log.1"), new Path("/test"));
+        fs.copyFromLocalFile(new Path("C:/Alearning/data/logs/accesslog/access.log.3"), new Path("/test"));
         fs.copyFromLocalFile(new Path("C:/Alearning/software/jdk/jdk-8u144-linux-x64.tar.gz"), new Path("/test"));
 
         System.out.println("文件上传成功" + System.currentTimeMillis());
@@ -141,6 +144,60 @@ public class HdfsClientTestMian {
         System.out.println("删除文件夹成功" + System.currentTimeMillis());
     }
 
+    // 7.读取hdfs中文件的内容
+    @Test
+    public void testReadData() throws IOException {
+        FSDataInputStream in = fs.open(new Path("/input/test1.txt"));
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(in, "utf-8"));
+
+        String line = null;
+
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+
+        br.close();
+        in.close();
+
+    }
+
+    // 读取hdfs中文件的指定偏移量范围的内容
+    @Test
+    public void testRandomReadData() throws IOException {
+
+        FSDataInputStream in = fs.open(new Path("/input/test1.txt"));
+
+        // 将读取的起始位置进行指定(0开始)
+        in.seek(12);
+        // 读16个字节
+        byte[] buf = new byte[11];
+        in.read(buf);
+
+        System.out.println(new String(buf));
+
+        in.close();
+
+    }
+
+    // 往hdfs中的文件写内容
+    @Test
+    public void testWriteData() throws IOException {
+        // hdfs输出流
+        FSDataOutputStream out = fs.create(new Path("/aa.txt"), false);
+
+        // 本地文件输入流
+        FileInputStream in = new FileInputStream("C:/Alearning/data/logs/accesslog/access.log");
+
+        byte[] buf = new byte[1024];
+        int read = 0;
+        while ((read = in.read(buf)) != -1) {
+            out.write(buf, 0, read);
+        }
+
+        in.close();
+        out.close();
+    }
 
     // 最后一步关闭资源
     @After
