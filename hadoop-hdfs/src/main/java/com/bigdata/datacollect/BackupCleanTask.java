@@ -3,7 +3,6 @@ package com.bigdata.datacollect;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;

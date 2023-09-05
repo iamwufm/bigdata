@@ -39,7 +39,7 @@ public class HdfsClientMian {
 
         // 2.具体操作
         // 上传一个文件到HDFS
-        fs.copyFromLocalFile(new Path("C:/Alearning/data/log/access.log.1"),new Path("/"));
+        fs.copyFromLocalFile(new Path("C:/Alearning/data/logs/accesslog/access.log.1"),new Path("/"));
 
         // 3.关闭资源
         fs.close();
