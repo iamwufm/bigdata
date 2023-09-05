@@ -1,7 +1,11 @@
 package com.bigdata.test;
 
+
+
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
-import java.util.Date;
+import java.io.IOException;
 
 /**
  * Date:2023/9/2
@@ -9,15 +13,12 @@ import java.util.Date;
  * Desc:
  */
 public class Demo1 {
-    public static void main(String[] args) {
-        File file = new File("C:/Alearning/data/logs/backup");
-
-        long nowTime = new Date().getTime();
-        System.out.println(nowTime);
-
-        for (File listFile : file.listFiles()) {
-            System.out.println(listFile);
-            System.out.println(listFile.getName());
+    public static void main(String[] args) throws IOException {
+        // 判断输出目录是否存在，存在删除
+        File output = new File("C:\\Alearning\\data\\mr\\wc\\output");
+        if (output.exists()){
+            System.out.println("hahah");
+            FileUtils.deleteDirectory(output);
         }
     }
 }
