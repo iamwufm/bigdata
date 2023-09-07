@@ -1,4 +1,4 @@
-package com.bidata.mr.wordCount;
+package com.bigdata.mr.wordCount;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -14,36 +14,40 @@ import java.net.URI;
 /**
  * Date:2023/9/5
  * Author:wfm
- * Desc:单词统计主主入口
+ * Desc: 单词统计主主入口
  * 以空格切分，统计单词出现次数
+ *
+ * 程序写完记得打包 package或install，后右键点击run
  * 准备：
  * 在hdfs的/input准备几份数据
  *
- * 程序写完记得打包 package或install，然后把包放在集群中的任意机器中，最后执行
- * hadoop jar 包名.jar com.bidata.mr.wordCount.JobSubmitterLinuxToYarn
- *
- * 如果要在hadoop集群的某台机器上启动这个job提交客户端的话
- * conf里面就不需要指定fs.defaultFS  mapreduce.framework.name等
- *
- * 因为在集群上用hadoop jar xx.jar com.bidata.mr.wordCount.JobSubmitterLinuxToYarn
- * 命令来启动客户端main方法时
- * hadoop jar这个命令会将所在机器上的hadoop安装目录中的jar包和配置文件加入到运行时的classpath中
- *
- * 那么我们在客户端main方法中的new Configuration()语句就会加载classpath中的配置文件，自然就有了
- * fs.defaultFS  mapreduce.framework.name等这些参数配置
+ * 用于提交mapreduce job的客户端程序
+ * 功能：
+ * 1.封装本次job运行时所需要的必要参数
+ * 2.跟yarn进行交互，将mapreduce程序成功的启动运行
  */
-public class JobSubmitterLinuxToYarn {
+public class JobSubmitterWindowsToYarn {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
+        // 在代码中设置JVM系统参数，用于给job对象来获取访问HDFS的用户身份
+        System.setProperty("HADOOP_USER_NAME", "hadoop");
 
         Configuration conf = new Configuration();
+        // 设置job运行时要访问的默认文件系统
+        conf.set("fs.defaultFS", "hdfs://hadoop101:8020");
+        // 设置job提交到哪里运行,默认时local
+        conf.set("mapreduce.framework.name", "yarn");
+        // resoucemanager的机器
+        conf.set("yarn.resourcemanager.hostname", "hadoop102");
+        // 如果要从windows系统上运行这个job提交客户端程序，则需要夹这个跨平台提交参数
+        conf.set("mapreduce.app-submission.cross-platform", "true");
 
         // 1.创建job对象
         Job job = Job.getInstance(conf);
 
         // 2.封装参数
         // 2.1 jar包所在位置
-        job.setJarByClass(JobSubmitterLinuxToYarn.class);
+        job.setJar("C:/code/bigdata/hadoop-mapreduce/target/hadoop-mapreduce-1.0-SNAPSHOT.jar");
 
         // 2.2 本次job所要调用的mapper实现类、reduce实现类
         job.setMapperClass(WordcountMapper.class);
@@ -77,6 +81,7 @@ public class JobSubmitterLinuxToYarn {
 
         // 非必要的，程序退出
         System.exit(res?0:-1);
+
 
     }
 }

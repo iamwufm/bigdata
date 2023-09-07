@@ -25,8 +25,9 @@ public class HdfsClientMian {
     public static void main(String[] args) throws Exception{
         /**
          * Configuration参数对象的机制：
-         *      构造时，会加载jar包中的默认配置 xxx-default.xml
-         *      再加载用户配置xx-site.xml，覆盖掉默认参数（可以把相应的文件放在Resources路径下）
+         *      构造时，会先加载jar包中的默认配置 xxx-default.xml
+         *      再加载环境中的*-site.xml
+         *      再加载工程中的*-site.xml（把相应的文件放在Resources路径下）
          *      构造完成之后，还可以通过conf.set("p","v")覆盖用户配置文件中的参数值
          */
         Configuration conf = new Configuration();
