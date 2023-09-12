@@ -13,7 +13,7 @@ import java.io.IOException;
  * <p>
  * 本案例的功能：演示自定义数据类型如何实现hadoop的序列化接口
  * 1、该类一定要保留空参构造函数
- * 2、write方法中输出字段二进制数据的顺序  要与  readFields方法读取数据的顺序一致
+ * 2、write方法中输出字段二进制数据的顺序 要与 readFields方法读取数据的顺序一致
  */
 public class FlowBean implements Writable {
 
@@ -23,18 +23,12 @@ public class FlowBean implements Writable {
     private int dFlow;
     private int amountFlow;
 
-    // 构造器
-    public FlowBean(String phoneNum, int upFlow, int dFlow) {
+    public void set(String phoneNum, int upFlow, int dFlow) {
         this.phoneNum = phoneNum;
         this.upFlow = upFlow;
         this.dFlow = dFlow;
         this.amountFlow = upFlow + dFlow;
     }
-
-
-    public FlowBean() {
-    }
-
 
     // 输出流，序列化
     @Override
@@ -57,7 +51,7 @@ public class FlowBean implements Writable {
     @Override
     public String toString() {
 
-        return phoneNum + "," + upFlow + "," + dFlow + "," + amountFlow;
+        return phoneNum + "\t" + upFlow + "\t" + dFlow + "\t" + amountFlow;
     }
 
     public String getPhoneNum() {

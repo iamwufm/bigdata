@@ -40,13 +40,12 @@ public class PageCount implements WritableComparable<PageCount> {
 
     @Override
     public String toString() {
-        return page + "," + count;
+        return page + "\t" + count;
     }
 
-    public PageCount(String page, int count) {
+    public void set(String page, int count) {
         this.page = page;
         this.count = count;
     }
 
-    public PageCount() {}
 }

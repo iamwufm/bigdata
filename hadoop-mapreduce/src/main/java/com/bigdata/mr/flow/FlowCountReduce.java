@@ -12,8 +12,10 @@ import java.util.Iterator;
  * Author:wfm
  * Desc:
  */
-public class FlowCountReduce extends Reducer<Text,FlowBean,Text,FlowBean> {
+public class FlowCountReduce extends Reducer<Text,FlowBean,FlowBean,NullWritable> {
 
+    FlowBean k = new FlowBean();
+    NullWritable v = NullWritable.get();
 
     @Override
     protected void reduce(Text key, Iterable<FlowBean> values, Context context) throws IOException, InterruptedException {
@@ -29,7 +31,9 @@ public class FlowCountReduce extends Reducer<Text,FlowBean,Text,FlowBean> {
             dFlow += flowBean.getdFlow();
         }
 
+        k.set(key.toString(),upFlow,dFlow);
+
         // 输出
-        context.write(key,new FlowBean(key.toString(),upFlow,dFlow));
+        context.write(k,v);
     }
 }

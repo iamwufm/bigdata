@@ -1,15 +1,12 @@
 package com.bigdata.mr.wordCount;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-
-import java.net.URI;
 
 /**
  * Date:2023/9/5
@@ -19,9 +16,10 @@ import java.net.URI;
  * 准备：
  * 在hdfs的/input准备几份数据
  *
- * 程序写完记得打包 package或install，然后把包放在集群中的任意机器中，最后执行
+ * 程序写完记得打包 package，然后把包放在集群中的任意机器中，最后执行
  * hadoop jar 包名.jar JobSubmitterLinuxToYarn
- *
+ * 或者
+ *hadoop jar 包名.jar JobSubmitterLinuxToYarn 参数1 参数2 ...
  * 如果要在hadoop集群的某台机器上启动这个job提交客户端的话
  * conf里面就不需要指定fs.defaultFS  mapreduce.framework.name等
  *
@@ -56,18 +54,9 @@ public class JobSubmitterLinuxToYarn {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
-        // 如果输出路径存在，则删除
-        Path output = new Path("/output");
-        FileSystem fs = FileSystem.get(new URI("hdfs://hadoop101:8020"), conf, "hadoop");
-        if (fs.exists(output)) {
-            fs.delete(output, true);
-        }
-
-        fs.close();
-
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
         FileInputFormat.setInputPaths(job, new Path("/input"));
-        FileOutputFormat.setOutputPath(job, output);// 注意：输出路径必须不存在
+        FileOutputFormat.setOutputPath(job, new Path("/output"));// 注意：输出路径必须不存在
 
         // 2.5 想要启动的reduce task的数量
         job.setNumReduceTasks(2);

@@ -21,6 +21,8 @@ import java.util.TreeMap;
 public class PageTopNReduce extends Reducer<Text, IntWritable, Text, IntWritable> {
 
     TreeMap<PageBean, Object> treeMap = new TreeMap<>();
+    Text k = new Text();
+    IntWritable v = new IntWritable();
 
     @Override
     protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
@@ -52,7 +54,9 @@ public class PageTopNReduce extends Reducer<Text, IntWritable, Text, IntWritable
         Set<PageBean> pageBeans = treeMap.keySet();
 
         for (PageBean pageBean : pageBeans) {
-            context.write(new Text(pageBean.getPage()), new IntWritable(pageBean.getCount()));
+            k.set(pageBean.getPage());
+            v.set(pageBean.getCount());
+            context.write(k,v);
             i++;
 
             // 遍历前三个就结束

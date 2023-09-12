@@ -1,8 +1,5 @@
 package com.bigdata.mr.page;
 
-import com.bigdata.mr.flow.FlowBean;
-import com.bigdata.mr.flow.FlowCountMapper;
-import com.bigdata.mr.flow.FlowCountReduce;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -24,7 +21,7 @@ import java.util.Iterator;
  * Author:wfm
  * Desc:统计网址的访问次数
  */
-public class PageCountStep1Main {
+public class PageCountMain {
 
     public static void main(String[] args) throws Exception {
         // 1.创建job对象
@@ -33,11 +30,11 @@ public class PageCountStep1Main {
 
         // 2.封装参数
         // 2.1 jar包所在位置
-        job.setJarByClass(PageCountStep1Main.class);
+        job.setJarByClass(PageCountMain.class);
 
         // 2.2 本次job所要调用的mapper实现类、reduce实现类
-        job.setMapperClass(PageCountStep1Mapper.class);
-        job.setReducerClass(PageCountStep1Reduce.class);
+        job.setMapperClass(PageCountMapper.class);
+        job.setReducerClass(PageCountReduce.class);
 
         // 2.3 本次job的mapper实现类、reduce实现类产生的结果数据的key、value类型
         job.setMapOutputKeyClass(Text.class);
@@ -64,19 +61,23 @@ public class PageCountStep1Main {
     }
 
     // mapper阶段 输出 网址,1
-    public static class PageCountStep1Mapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+    public static class PageCountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+
+        Text k = new Text();
+        IntWritable v = new IntWritable(1);
+
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             // 处理一行数据
             String[] words = value.toString().split(" ");
-
-            context.write(new Text(words[1]), new IntWritable(1));
+            k.set(words[1]);
+            context.write(k,v);
         }
     }
 
     // reduce阶段 输出 网址,访问次数
-    public static class PageCountStep1Reduce extends Reducer<Text, IntWritable, Text, IntWritable> {
-
+    public static class PageCountReduce extends Reducer<Text, IntWritable, Text, IntWritable> {
+        IntWritable v = new IntWritable();
         @Override
         protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
             int count = 0;
@@ -85,9 +86,9 @@ public class PageCountStep1Main {
             while (iterator.hasNext()){
                 count += iterator.next().get();
             }
-
+            v.set(count);
             // 写
-            context.write(key,new IntWritable(count));
+            context.write(key,v);
         }
     }
 }

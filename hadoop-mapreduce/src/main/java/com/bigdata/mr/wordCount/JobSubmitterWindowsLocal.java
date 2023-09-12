@@ -40,6 +40,9 @@ public class JobSubmitterWindowsLocal {
         job.setMapperClass(WordcountMapper.class);
         job.setReducerClass(WordcountReducer.class);
 
+        // 设置maptask端的局部聚合逻辑类
+//        job.setCombinerClass(WordcountReducer.class);
+
         // 2.3 本次job的mapper实现类、reduce实现类产生的结果数据的key、value类型
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
@@ -48,7 +51,7 @@ public class JobSubmitterWindowsLocal {
         job.setOutputValueClass(IntWritable.class);
 
         // 判断输出目录是否存在，存在删除
-        File output = new File("C:/Alearning/data/mr/wc/output");
+        File output = new File("C:/Alearning/data/mr/wc/output/");
         if (output.exists()){
             FileUtils.deleteDirectory(output);
         }
@@ -58,7 +61,7 @@ public class JobSubmitterWindowsLocal {
         FileOutputFormat.setOutputPath(job,new Path("C:/Alearning/data/mr/wc/output"));
 
         // 2.5 想要启动的reduce task的数量
-        job.setNumReduceTasks(2);
+        job.setNumReduceTasks(1);
 
         // 3.提交job给yarn
         boolean res = job.waitForCompletion(true);

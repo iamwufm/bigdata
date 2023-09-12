@@ -3,11 +3,11 @@ package com.bigdata.mr.flow;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.partition.HashPartitioner;
 
 import java.io.File;
 
@@ -16,17 +16,16 @@ import java.io.File;
  * Author:wfm
  * Desc:统计每一个手机号耗费的总上行流量、总下行流量、总流量
  *
- * 输入数据格式：
  * id   手机号码   ... 上行流量 下行流量 网络状态码
  * 1	18320173382	...	9531	2412	200
  * 输出数据格式：
- * 13560436666 1116,954,2070
+ * 13560436666 1116 954 2070
  * 手机号码 上行流量 下行流量 总流量
  *
  * 实现方式：
  * 在map阶段
  * 输出：手机号码，对象
- * 在reduce阶段：手机号码，对象
+ * 在reduce阶段：对象，null
  */
 public class FlowSumPartitionsMain {
 
@@ -54,8 +53,8 @@ public class FlowSumPartitionsMain {
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(FlowBean.class);
 
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(FlowBean.class);
+        job.setOutputKeyClass(FlowBean.class);
+        job.setOutputValueClass(NullWritable.class);
 
         // 判断输出目录是否存在，存在删除
         File output = new File("C:\\Alearning\\data\\mr\\flow\\output2");

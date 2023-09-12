@@ -16,12 +16,13 @@ import java.io.IOException;
  * 网址,1
  */
 public class PageCountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
-
+    Text k = new Text();
+    IntWritable v = new IntWritable(1);
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         // 切分一行数据
         String[] words = value.toString().split(" ");
-
-        context.write(new Text(words[1]),new IntWritable(1));
+        k.set(words[1]);
+        context.write(k,v);
     }
 }

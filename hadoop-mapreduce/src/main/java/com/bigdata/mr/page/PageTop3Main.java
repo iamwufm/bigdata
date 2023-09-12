@@ -1,9 +1,5 @@
 package com.bigdata.mr.page;
 
-import com.bigdata.mr.flow.FlowBean;
-import com.bigdata.mr.flow.FlowCountMapper;
-import com.bigdata.mr.flow.FlowCountReduce;
-import com.bigdata.mr.wordCount.JobSubmitterWindowsLocal;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -20,15 +16,16 @@ import java.io.File;
  * Author:wfm
  * Desc: 求出每个网站被访问次数最多的top3个url
  *
- * 输入数据格式：
+ * 1.输入数据
  * 2017/07/28 qq.com/a
  * 2017/07/28 qq.com/bx
- * 2017/07/28 qq.com/by
- *
- * 输出格式：
- * 163.com/sport	8
+ * 2017/07/28 qq.com/a
+
+ * 2.输出数据
+ * qq.com/a 2
+ * qq.com/bx 1
  */
-public class PageTopThreeMain {
+public class PageTop3Main {
 
     public static void main(String[] args) throws Exception{
         // 1.创建job对象
@@ -37,7 +34,7 @@ public class PageTopThreeMain {
 
         // 2.封装参数
         // 2.1 jar包所在位置
-        job.setJarByClass(PageTopThreeMain.class);
+        job.setJarByClass(PageTop3Main.class);
 
         // 2.2 本次job所要调用的mapper实现类、reduce实现类
         job.setMapperClass(PageCountMapper.class);

@@ -1,7 +1,6 @@
 package com.bigdata.mr.wordCount;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -9,15 +8,13 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import java.net.URI;
-
 /**
  * Date:2023/9/5
  * Author:wfm
  * Desc: 单词统计主主入口
  * 以空格切分，统计单词出现次数
  *
- * 程序写完记得打包 package或install，后右键点击run
+ * 程序写完记得打包 package，后右键点击run
  * 准备：
  * 在hdfs的/input准备几份数据
  *
@@ -47,7 +44,7 @@ public class JobSubmitterWindowsToYarn {
 
         // 2.封装参数
         // 2.1 jar包所在位置
-        job.setJar("C:/code/bigdata/hadoop-mapreduce/target/hadoop-mapreduce-1.0-SNAPSHOT.jar");
+        job.setJar("C:/code/bigdata/hadoop-mapreduce/target/wc.jar");
 
         // 2.2 本次job所要调用的mapper实现类、reduce实现类
         job.setMapperClass(WordcountMapper.class);
@@ -61,17 +58,17 @@ public class JobSubmitterWindowsToYarn {
         job.setOutputValueClass(IntWritable.class);
 
         // 如果输出路径存在，则删除
-        Path output = new Path("/output");
-        FileSystem fs = FileSystem.get(new URI("hdfs://hadoop101:8020"), conf, "hadoop");
-        if (fs.exists(output)) {
-            fs.delete(output, true);
-        }
-
-        fs.close();
+//        Path output = new Path("/output");
+//        FileSystem fs = FileSystem.get(new URI("hdfs://hadoop101:8020"), conf, "hadoop");
+//        if (fs.exists(output)) {
+//            fs.delete(output, true);
+//        }
+//
+//        fs.close();
 
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
         FileInputFormat.setInputPaths(job, new Path("/input"));
-        FileOutputFormat.setOutputPath(job, output);// 注意：输出路径必须不存在
+        FileOutputFormat.setOutputPath(job, new Path("/output"));// 注意：输出路径必须不存在
 
         // 2.5 想要启动的reduce task的数量
         job.setNumReduceTasks(2);
@@ -81,7 +78,5 @@ public class JobSubmitterWindowsToYarn {
 
         // 非必要的，程序退出
         System.exit(res?0:-1);
-
-
     }
 }

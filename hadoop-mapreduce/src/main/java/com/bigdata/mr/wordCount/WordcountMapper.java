@@ -28,18 +28,24 @@ import java.io.IOException;
  * LongWritable Text IntWritable FloatWritable
  *
  */
+
 public class WordcountMapper extends Mapper<LongWritable, Text,Text, IntWritable> {
+
+    Text k = new Text();
+    IntWritable v = new IntWritable(1);
 
     // 重写方法快捷键ctrl+o
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-
         // 切单词
         String line = value.toString();
         String[] words = line.split(" ");
 
         for (String word : words) {
-            context.write(new Text(word),new IntWritable(1));
+            k.set(word);
+            context.write(k,v);
+            // 不可取，每次调用一次创建一个对象
+//            context.write(new Text(word),new IntWritable(1));
         }
     }
 }
