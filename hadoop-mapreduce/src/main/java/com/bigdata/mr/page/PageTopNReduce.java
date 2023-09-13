@@ -56,7 +56,7 @@ public class PageTopNReduce extends Reducer<Text, IntWritable, Text, IntWritable
         for (PageBean pageBean : pageBeans) {
             k.set(pageBean.getPage());
             v.set(pageBean.getCount());
-            context.write(k,v);
+            context.write(k, v);
             i++;
 
             // 遍历前三个就结束

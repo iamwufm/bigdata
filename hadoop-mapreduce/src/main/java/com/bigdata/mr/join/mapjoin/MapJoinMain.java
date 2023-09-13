@@ -1,14 +1,10 @@
 package com.bigdata.mr.join.mapjoin;
 
-import com.bigdata.mr.wordCount.JobSubmitterWindowsLocal;
-import com.bigdata.mr.wordCount.WordcountMapper;
-import com.bigdata.mr.wordCount.WordcountReducer;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
@@ -22,7 +18,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,11 +41,11 @@ import java.util.Map;
  * order002,u001,laozhao,48,ruhua
  * order003,u003,xiaoxu,16,chunge
  * <p>
- *
+ * <p>
  * 在map阶段处理完数据，无reduce task
  */
 public class MapJoinMain {
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args) throws Exception {
 
         // 1.创建job对象
         Configuration conf = new Configuration();
@@ -73,13 +68,13 @@ public class MapJoinMain {
 
         // 判断输出目录是否存在，存在删除
         File output = new File("C:\\Alearning\\data\\mr\\join\\mapjoin\\output");
-        if (output.exists()){
+        if (output.exists()) {
             FileUtils.deleteDirectory(output);
         }
 
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
-        FileInputFormat.setInputPaths(job,new Path("C:\\Alearning\\data\\mr\\join\\mapjoin\\order"));
-        FileOutputFormat.setOutputPath(job,new Path("C:\\Alearning\\data\\mr\\join\\mapjoin\\output"));
+        FileInputFormat.setInputPaths(job, new Path("C:\\Alearning\\data\\mr\\join\\mapjoin\\order"));
+        FileOutputFormat.setOutputPath(job, new Path("C:\\Alearning\\data\\mr\\join\\mapjoin\\output"));
 
         // 2.5 想要启动的reduce task的数量
         job.setNumReduceTasks(1);
@@ -87,11 +82,11 @@ public class MapJoinMain {
         // 3.提交job给yarn
         boolean res = job.waitForCompletion(true);
 
-        System.exit(res?0:-1);
+        System.exit(res ? 0 : -1);
     }
 
-    static class MapJoinMapper extends Mapper<LongWritable, Text,Text, NullWritable>{
-        private Map<String,String> userMap = new HashMap<>();
+    static class MapJoinMapper extends Mapper<LongWritable, Text, Text, NullWritable> {
+        private Map<String, String> userMap = new HashMap<>();
         private Text k = new Text();
         private NullWritable v = NullWritable.get();
 
@@ -117,7 +112,7 @@ public class MapJoinMain {
                 int index = line.indexOf(",");
                 // 添加到userMap
                 // line值为u001,senge,18,angelababy <u001,"senge,18,angelababy">
-                userMap.put(line.substring(0,index),line.substring(index+1));
+                userMap.put(line.substring(0, index), line.substring(index + 1));
             }
 
             br.close();
@@ -135,7 +130,7 @@ public class MapJoinMain {
 
             // 拼接信息
             k.set(line + "," + user);
-            context.write(k,v);
+            context.write(k, v);
         }
     }
 }

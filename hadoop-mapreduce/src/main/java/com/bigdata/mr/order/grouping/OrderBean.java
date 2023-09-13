@@ -42,7 +42,7 @@ public class OrderBean implements WritableComparable<OrderBean> {
     @Override
     public int compareTo(OrderBean o) {
         // 按订单id升序排序，相同订单id按销售额降序
-        if (this.orderId.compareTo(o.orderId) == 0){
+        if (this.orderId.compareTo(o.orderId) == 0) {
 
             return Float.compare(o.amountFee, this.amountFee);
         }
@@ -51,12 +51,12 @@ public class OrderBean implements WritableComparable<OrderBean> {
 
     @Override
     public void write(DataOutput dataOutput) throws IOException {
-            dataOutput.writeUTF(orderId);
-            dataOutput.writeUTF(userId);
-            dataOutput.writeUTF(pdtName);
-            dataOutput.writeFloat(price);
-            dataOutput.writeInt(number);
-            dataOutput.writeFloat(amountFee);
+        dataOutput.writeUTF(orderId);
+        dataOutput.writeUTF(userId);
+        dataOutput.writeUTF(pdtName);
+        dataOutput.writeFloat(price);
+        dataOutput.writeInt(number);
+        dataOutput.writeFloat(amountFee);
     }
 
     @Override

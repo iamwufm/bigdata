@@ -51,7 +51,7 @@ public class PageCountReduce extends Reducer<Text, IntWritable, Text, IntWritabl
         for (PageBean pageBean : pageBeans) {
             k.set(pageBean.getPage());
             v.set(pageBean.getCount());
-            context.write(k,v);
+            context.write(k, v);
             i++;
 
             // 遍历前三个就结束

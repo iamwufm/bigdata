@@ -13,11 +13,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  * Author:wfm
  * Desc: 单词统计主主入口
  * 以空格切分，统计单词出现次数
- *
+ * <p>
  * 程序写完记得打包 package，后右键点击run
  * 准备：
  * 在hdfs的/input准备几份数据
- *
+ * <p>
  * 用于提交mapreduce job的客户端程序
  * 功能：
  * 1.封装本次job运行时所需要的必要参数
@@ -77,6 +77,6 @@ public class JobSubmitterWindowsToYarn {
         boolean res = job.waitForCompletion(true);
 
         // 非必要的，程序退出
-        System.exit(res?0:-1);
+        System.exit(res ? 0 : -1);
     }
 }

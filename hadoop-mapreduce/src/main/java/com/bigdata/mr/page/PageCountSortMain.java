@@ -21,7 +21,7 @@ import java.io.IOException;
  * Desc:对网址的访问次数进行降序排序（输入数据已经统计好每个网页的访问次数）
  */
 public class PageCountSortMain {
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         // 1.创建job对象
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf);
@@ -43,13 +43,13 @@ public class PageCountSortMain {
 
         // 判断输出目录是否存在，存在删除
         File output = new File("C:\\Alearning\\data\\mr\\page\\output4");
-        if (output.exists()){
+        if (output.exists()) {
             FileUtils.deleteDirectory(output);
         }
 
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
-        FileInputFormat.setInputPaths(job,new Path("C:\\Alearning\\data\\mr\\page\\output3"));
-        FileOutputFormat.setOutputPath(job,new Path("C:\\Alearning\\data\\mr\\page\\output4"));
+        FileInputFormat.setInputPaths(job, new Path("C:\\Alearning\\data\\mr\\page\\output3"));
+        FileOutputFormat.setOutputPath(job, new Path("C:\\Alearning\\data\\mr\\page\\output4"));
 
         // 2.5 想要启动的reduce task的数量
         job.setNumReduceTasks(1);
@@ -59,29 +59,31 @@ public class PageCountSortMain {
     }
 
     // map阶段，输出 pageCount对象，null
-    public static class PageCountSortMapper extends Mapper<LongWritable, Text, PageCount, NullWritable>{
+    public static class PageCountSortMapper extends Mapper<LongWritable, Text, PageCount, NullWritable> {
         PageCount pageCount = new PageCount();
         NullWritable v = NullWritable.get();
+
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             // 处理一行数据
             String[] words = value.toString().split("\t");
 
-            pageCount.set(words[0],Integer.parseInt(words[1]));
+            pageCount.set(words[0], Integer.parseInt(words[1]));
 
-            context.write(pageCount,v);
+            context.write(pageCount, v);
 
         }
     }
 
     // reduce阶段，输出 pageCount对象，null
-    public static class PageCountSortReduce extends Reducer<PageCount, NullWritable,PageCount, NullWritable>{
+    public static class PageCountSortReduce extends Reducer<PageCount, NullWritable, PageCount, NullWritable> {
         NullWritable v = NullWritable.get();
+
         @Override
         protected void reduce(PageCount key, Iterable<NullWritable> values, Context context) throws IOException, InterruptedException {
             // 处理一组数据
-            context.write(key,v);
+            context.write(key, v);
         }
 
     }

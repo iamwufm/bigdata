@@ -15,24 +15,24 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  * 以空格切分，统计单词出现次数
  * 准备：
  * 在hdfs的/input准备几份数据
- *
+ * <p>
  * 程序写完记得打包 package，然后把包放在集群中的任意机器中，最后执行
  * hadoop jar 包名.jar JobSubmitterLinuxToYarn
  * 或者
- *hadoop jar 包名.jar JobSubmitterLinuxToYarn 参数1 参数2 ...
+ * hadoop jar 包名.jar JobSubmitterLinuxToYarn 参数1 参数2 ...
  * 如果要在hadoop集群的某台机器上启动这个job提交客户端的话
  * conf里面就不需要指定fs.defaultFS  mapreduce.framework.name等
- *
+ * <p>
  * 因为在集群上用hadoop jar xx.jar JobSubmitterLinuxToYarn
  * 命令来启动客户端main方法时
  * hadoop jar这个命令会将所在机器上的hadoop安装目录中的jar包和配置文件加入到运行时的classpath中
- *
+ * <p>
  * 那么我们在客户端main方法中的new Configuration()语句就会加载classpath中的配置文件，自然就有了
  * fs.defaultFS  mapreduce.framework.name等这些参数配置
  */
 public class JobSubmitterLinuxToYarn {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
         Configuration conf = new Configuration();
 
@@ -65,7 +65,7 @@ public class JobSubmitterLinuxToYarn {
         boolean res = job.waitForCompletion(true);
 
         // 非必要的，程序退出
-        System.exit(res?0:-1);
+        System.exit(res ? 0 : -1);
 
     }
 }

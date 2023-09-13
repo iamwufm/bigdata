@@ -18,7 +18,7 @@ import java.io.File;
  */
 public class PageTopNMain {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
         // 1.创建job对象
         Configuration conf = new Configuration();
@@ -44,13 +44,13 @@ public class PageTopNMain {
 
         // 判断输出目录是否存在，存在删除
         File output = new File("C:\\Alearning\\data\\mr\\page\\output2");
-        if (output.exists()){
+        if (output.exists()) {
             FileUtils.deleteDirectory(output);
         }
 
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
-        FileInputFormat.setInputPaths(job,new Path("C:\\Alearning\\data\\mr\\page\\input"));
-        FileOutputFormat.setOutputPath(job,new Path("C:\\Alearning\\data\\mr\\page\\output2"));
+        FileInputFormat.setInputPaths(job, new Path("C:\\Alearning\\data\\mr\\page\\input"));
+        FileOutputFormat.setOutputPath(job, new Path("C:\\Alearning\\data\\mr\\page\\output2"));
 
         // 2.5 想要启动的reduce task的数量
         job.setNumReduceTasks(1);

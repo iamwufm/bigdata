@@ -24,10 +24,11 @@ public class OrderUserBean implements WritableComparable<OrderUserBean> {
     private String userFriend;
     // 表名
     private String tableName;
+
     @Override
     public int compareTo(OrderUserBean o) {
         // 按用户id升序排序，如果一样，按tableName降序(tableName值为order和user)
-        if (this.userId.compareTo(o.userId) == 0){
+        if (this.userId.compareTo(o.userId) == 0) {
             return o.tableName.compareTo(this.tableName);
         }
         return this.userId.compareTo(o.userId);

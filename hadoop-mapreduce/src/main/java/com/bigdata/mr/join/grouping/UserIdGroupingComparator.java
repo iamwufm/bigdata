@@ -11,7 +11,7 @@ import org.apache.hadoop.io.WritableComparator;
 public class UserIdGroupingComparator extends WritableComparator {
 
     public UserIdGroupingComparator() {
-        super(OrderUserBean.class,true );
+        super(OrderUserBean.class, true);
     }
 
     @Override

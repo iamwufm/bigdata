@@ -68,7 +68,6 @@ public class OrderTopnMain {
         }
 
 
-
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
         FileInputFormat.setInputPaths(job, new Path("C:\\Alearning\\data\\mr\\order\\input"));
         FileOutputFormat.setOutputPath(job, new Path("C:\\Alearning\\data\\mr\\order\\output1"));
@@ -99,10 +98,11 @@ public class OrderTopnMain {
     private static class OrderTopnReducer extends Reducer<OrderBean, NullWritable, OrderBean, NullWritable> {
         int topn;
         NullWritable v = NullWritable.get();
+
         @Override
         protected void setup(Reducer<OrderBean, NullWritable, OrderBean, NullWritable>.Context context) throws IOException, InterruptedException {
             Configuration conf = context.getConfiguration();
-            topn = conf.getInt("order.top.n",3);
+            topn = conf.getInt("order.top.n", 3);
 
         }
 
@@ -112,8 +112,8 @@ public class OrderTopnMain {
             // 虽然reduce方法中的参数key只有一个，但是只要迭代器迭代一次，key中的值就会变
             for (NullWritable value : values) {
                 context.write(key, v);
-                count ++;
-                if (count == topn)return;
+                count++;
+                if (count == topn) return;
             }
         }
     }

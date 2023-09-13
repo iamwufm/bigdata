@@ -28,11 +28,11 @@ public class FlowCountMapper extends Mapper<LongWritable, Text, Text, FlowBean> 
         int dFlow = Integer.parseInt(words[words.length - 2]);
 
         k.set(phoneNum);
-        v.set(phoneNum,upFlow,dFlow);
+        v.set(phoneNum, upFlow, dFlow);
 
 
         // 输出
-        context.write(k,v);
+        context.write(k, v);
 
 
     }

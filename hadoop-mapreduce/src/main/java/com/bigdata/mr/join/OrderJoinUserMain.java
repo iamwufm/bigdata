@@ -1,17 +1,12 @@
 package com.bigdata.mr.join;
 
-import com.bigdata.mr.wordCount.JobSubmitterWindowsLocal;
-import com.bigdata.mr.wordCount.WordcountMapper;
-import com.bigdata.mr.wordCount.WordcountReducer;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -21,7 +16,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
@@ -48,7 +42,7 @@ import java.util.ArrayList;
  * 还可以利用Partitioner+CompareTo+GroupingComparator 组合拳来高效实现
  */
 public class OrderJoinUserMain {
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args) throws Exception {
 
         // 1.创建job对象
         Configuration conf = new Configuration();
@@ -71,13 +65,13 @@ public class OrderJoinUserMain {
 
         // 判断输出目录是否存在，存在删除
         File output = new File("C:\\Alearning\\data\\mr\\join\\output");
-        if (output.exists()){
+        if (output.exists()) {
             FileUtils.deleteDirectory(output);
         }
 
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
-        FileInputFormat.setInputPaths(job,new Path("C:\\Alearning\\data\\mr\\join\\input"));
-        FileOutputFormat.setOutputPath(job,new Path("C:\\Alearning\\data\\mr\\join\\output"));
+        FileInputFormat.setInputPaths(job, new Path("C:\\Alearning\\data\\mr\\join\\input"));
+        FileOutputFormat.setOutputPath(job, new Path("C:\\Alearning\\data\\mr\\join\\output"));
 
         // 2.5 想要启动的reduce task的数量
         job.setNumReduceTasks(2);
@@ -85,7 +79,7 @@ public class OrderJoinUserMain {
         // 3.提交job给yarn
         boolean res = job.waitForCompletion(true);
 
-        System.exit(res?0:-1);
+        System.exit(res ? 0 : -1);
     }
 
     static class OrderJoinUserMapper extends Mapper<LongWritable, Text, Text, JoinBean> {
@@ -135,9 +129,9 @@ public class OrderJoinUserMain {
                         JoinBean orderBean = new JoinBean();
                         BeanUtils.copyProperties(orderBean, value);
                         orderList.add(orderBean);
-                    }else {
+                    } else {
                         userBean = new JoinBean();
-                        BeanUtils.copyProperties(userBean,value);
+                        BeanUtils.copyProperties(userBean, value);
                     }
                 }
 
@@ -148,7 +142,7 @@ public class OrderJoinUserMain {
                     k.setUserFriend(userBean.getUserFriend());
 
                     // 写数据
-                    context.write(k,v);
+                    context.write(k, v);
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

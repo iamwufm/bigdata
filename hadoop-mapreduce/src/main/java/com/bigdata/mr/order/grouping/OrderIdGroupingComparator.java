@@ -1,9 +1,7 @@
 package com.bigdata.mr.order.grouping;
 
-import org.apache.hadoop.io.RawComparator;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
-import org.apache.hadoop.mapreduce.Mapper;
 
 /**
  * Date:2023/9/11
@@ -12,7 +10,7 @@ import org.apache.hadoop.mapreduce.Mapper;
  */
 public class OrderIdGroupingComparator extends WritableComparator {
     public OrderIdGroupingComparator() {
-        super(OrderBean.class,true);
+        super(OrderBean.class, true);
     }
 
     @Override

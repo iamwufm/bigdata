@@ -18,15 +18,14 @@ import java.io.File;
  * 以空格切分，统计单词出现次数
  * 准备：
  * 在hdfs的/input准备几份数据
- *
+ * <p>
  * 用windows安装的hadoop环境。
- *
+ * <p>
  * 文件系统用本地系统conf.set("fs.defaultFS", "file:///")
- *
  */
 public class JobSubmitterWindowsLocal {
 
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args) throws Exception {
 
         // 1.创建job对象
         Configuration conf = new Configuration();
@@ -52,13 +51,13 @@ public class JobSubmitterWindowsLocal {
 
         // 判断输出目录是否存在，存在删除
         File output = new File("C:/Alearning/data/mr/wc/output/");
-        if (output.exists()){
+        if (output.exists()) {
             FileUtils.deleteDirectory(output);
         }
 
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
-        FileInputFormat.setInputPaths(job,new Path("C:/Alearning/data/mr/wc/input"));
-        FileOutputFormat.setOutputPath(job,new Path("C:/Alearning/data/mr/wc/output"));
+        FileInputFormat.setInputPaths(job, new Path("C:/Alearning/data/mr/wc/input"));
+        FileOutputFormat.setOutputPath(job, new Path("C:/Alearning/data/mr/wc/output"));
 
         // 2.5 想要启动的reduce task的数量
         job.setNumReduceTasks(1);
@@ -66,6 +65,6 @@ public class JobSubmitterWindowsLocal {
         // 3.提交job给yarn
         boolean res = job.waitForCompletion(true);
 
-        System.exit(res?0:-1);
+        System.exit(res ? 0 : -1);
     }
 }

@@ -12,7 +12,7 @@ import java.util.Iterator;
  * Author:wfm
  * Desc:
  */
-public class FlowCountReduce extends Reducer<Text,FlowBean,FlowBean,NullWritable> {
+public class FlowCountReduce extends Reducer<Text, FlowBean, FlowBean, NullWritable> {
 
     FlowBean k = new FlowBean();
     NullWritable v = NullWritable.get();
@@ -25,15 +25,15 @@ public class FlowCountReduce extends Reducer<Text,FlowBean,FlowBean,NullWritable
 
         // 遍历一组手机号码的所有的value值
         Iterator<FlowBean> iterator = values.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             FlowBean flowBean = iterator.next();
             upFlow += flowBean.getUpFlow();
             dFlow += flowBean.getdFlow();
         }
 
-        k.set(key.toString(),upFlow,dFlow);
+        k.set(key.toString(), upFlow, dFlow);
 
         // 输出
-        context.write(k,v);
+        context.write(k, v);
     }
 }

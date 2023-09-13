@@ -74,7 +74,6 @@ public class UserGroupingMain {
         }
 
 
-
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
         FileInputFormat.setInputPaths(job, new Path("C:\\Alearning\\data\\mr\\join\\input"));
         FileOutputFormat.setOutputPath(job, new Path("C:\\Alearning\\data\\mr\\join\\output2"));
@@ -86,10 +85,11 @@ public class UserGroupingMain {
         boolean res = job.waitForCompletion(true);
     }
 
-    static class UserGroupingMapper extends Mapper<LongWritable, Text,OrderUserBean, NullWritable>{
+    static class UserGroupingMapper extends Mapper<LongWritable, Text, OrderUserBean, NullWritable> {
         private String fileName;
         private OrderUserBean k = new OrderUserBean();
         private NullWritable v = NullWritable.get();
+
         @Override
         protected void setup(Mapper<LongWritable, Text, OrderUserBean, NullWritable>.Context context) throws IOException, InterruptedException {
             // 获取输入文件名称
@@ -114,8 +114,9 @@ public class UserGroupingMain {
         }
     }
 
-    static class UserGroupingReduce extends Reducer<OrderUserBean, NullWritable,OrderUserBean, NullWritable>{
+    static class UserGroupingReduce extends Reducer<OrderUserBean, NullWritable, OrderUserBean, NullWritable> {
         private NullWritable v = NullWritable.get();
+
         //  输入<bean对象，null>，输出<bean对象，null>
         @Override
         protected void reduce(OrderUserBean key, Iterable<NullWritable> values, Reducer<OrderUserBean, NullWritable, OrderUserBean, NullWritable>.Context context) throws IOException, InterruptedException {
@@ -125,17 +126,17 @@ public class UserGroupingMain {
             // 第一次迭代value，key值是user
             try {
                 for (NullWritable value : values) {
-                    if (key.getTableName().equals("user")){
-                        BeanUtils.copyProperties(userBean,key);
-                    }else {
+                    if (key.getTableName().equals("user")) {
+                        BeanUtils.copyProperties(userBean, key);
+                    } else {
                         key.setUserName(userBean.getUserName());
                         key.setUserAge(userBean.getUserAge());
                         key.setUserFriend(userBean.getUserFriend());
                         // 写数据
-                        context.write(key,v);
+                        context.write(key, v);
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
 

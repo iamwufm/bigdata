@@ -45,13 +45,13 @@ public class PageCountMain {
 
         // 判断输出目录是否存在，存在删除
         File output = new File("C:\\Alearning\\data\\mr\\page\\output3");
-        if (output.exists()){
+        if (output.exists()) {
             FileUtils.deleteDirectory(output);
         }
 
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
-        FileInputFormat.setInputPaths(job,new Path("C:\\Alearning\\data\\mr\\page\\input"));
-        FileOutputFormat.setOutputPath(job,new Path("C:\\Alearning\\data\\mr\\page\\output3"));
+        FileInputFormat.setInputPaths(job, new Path("C:\\Alearning\\data\\mr\\page\\input"));
+        FileOutputFormat.setOutputPath(job, new Path("C:\\Alearning\\data\\mr\\page\\output3"));
 
         // 2.5 想要启动的reduce task的数量
         job.setNumReduceTasks(2);
@@ -71,24 +71,25 @@ public class PageCountMain {
             // 处理一行数据
             String[] words = value.toString().split(" ");
             k.set(words[1]);
-            context.write(k,v);
+            context.write(k, v);
         }
     }
 
     // reduce阶段 输出 网址,访问次数
     public static class PageCountReduce extends Reducer<Text, IntWritable, Text, IntWritable> {
         IntWritable v = new IntWritable();
+
         @Override
         protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
             int count = 0;
             // 处理一组数据
             Iterator<IntWritable> iterator = values.iterator();
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 count += iterator.next().get();
             }
             v.set(count);
             // 写
-            context.write(key,v);
+            context.write(key, v);
         }
     }
 }

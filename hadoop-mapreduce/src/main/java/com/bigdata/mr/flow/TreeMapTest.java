@@ -1,7 +1,6 @@
 package com.bigdata.mr.flow;
 
 import java.util.Comparator;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -22,7 +21,7 @@ public class TreeMapTest {
                 // 升序 o1.getAmountFlow() - o2.getAmountFlow()
 
                 // 如果总流量相同，按手机号码升序
-                if (o2.getAmountFlow() - o1.getAmountFlow() == 0){
+                if (o2.getAmountFlow() - o1.getAmountFlow() == 0) {
                     return o1.getPhoneNum().compareTo(o2.getPhoneNum());
                 }
 

@@ -1,8 +1,5 @@
 package com.bigdata.mr.index;
 
-import com.bigdata.mr.wordCount.JobSubmitterWindowsLocal;
-import com.bigdata.mr.wordCount.WordcountMapper;
-import com.bigdata.mr.wordCount.WordcountReducer;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -18,7 +15,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * Date:2023/9/11
@@ -39,7 +35,7 @@ import java.util.Iterator;
  */
 public class IndexStepOneMain {
 
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args) throws Exception {
 
         // 1.创建job对象
         Configuration conf = new Configuration();
@@ -65,13 +61,13 @@ public class IndexStepOneMain {
 
         // 判断输出目录是否存在，存在删除
         File output = new File("C:\\Alearning\\data\\mr\\index\\output");
-        if (output.exists()){
+        if (output.exists()) {
             FileUtils.deleteDirectory(output);
         }
 
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
-        FileInputFormat.setInputPaths(job,new Path("C:\\Alearning\\data\\mr\\index\\input"));
-        FileOutputFormat.setOutputPath(job,new Path("C:\\Alearning\\data\\mr\\index\\output"));
+        FileInputFormat.setInputPaths(job, new Path("C:\\Alearning\\data\\mr\\index\\input"));
+        FileOutputFormat.setOutputPath(job, new Path("C:\\Alearning\\data\\mr\\index\\output"));
 
         // 2.5 想要启动的reduce task的数量
         job.setNumReduceTasks(1);
@@ -79,7 +75,7 @@ public class IndexStepOneMain {
         // 3.提交job给yarn
         boolean res = job.waitForCompletion(true);
 
-        System.exit(res?0:-1);
+        System.exit(res ? 0 : -1);
     }
 
     static class IndexStepOneMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
@@ -104,16 +100,17 @@ public class IndexStepOneMain {
 
             for (String word : words) {
                 k.set(word + "-" + fileName);
-                context.write(k,v);
+                context.write(k, v);
             }
 
         }
     }
 
 
-    static class IndexStepOneReduce extends Reducer<Text, IntWritable,Text, Text>{
+    static class IndexStepOneReduce extends Reducer<Text, IntWritable, Text, Text> {
         Text k = new Text();
         Text v = new Text();
+
         // 输出<单词,文件-->次数>
         // 输入<单词-文件,1>
         @Override
@@ -126,7 +123,7 @@ public class IndexStepOneMain {
             String[] words = key.toString().split("-");
             k.set(words[0]);
             v.set(words[1] + "-->" + count);
-            context.write(k,v);
+            context.write(k, v);
         }
     }
 }
