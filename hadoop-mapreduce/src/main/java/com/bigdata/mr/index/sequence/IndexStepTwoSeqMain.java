@@ -7,6 +7,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.CombineFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -43,6 +44,7 @@ public class IndexStepTwoSeqMain {
 
         // 设置输入格式
         job.setInputFormatClass(SequenceFileInputFormat.class);
+        job.setInputFormatClass(CombineFileInputFormat.class);
 
         // 设置maptask端的局部聚合逻辑类
 //        job.setCombinerClass(IndexStepOneReduce.class);
