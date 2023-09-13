@@ -77,7 +77,7 @@ public class MapJoinMain {
         FileOutputFormat.setOutputPath(job, new Path("C:\\Alearning\\data\\mr\\join\\mapjoin\\output"));
 
         // 2.5 想要启动的reduce task的数量
-        job.setNumReduceTasks(1);
+        job.setNumReduceTasks(0);
 
         // 3.提交job给yarn
         boolean res = job.waitForCompletion(true);
