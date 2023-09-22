@@ -83,7 +83,7 @@ public class CollectTask extends TimerTask {
             // 4.3遍历待上传目录中的文件，逐一传输到HDFS
             for (File toUploadFile : toUploadDir.listFiles()) {
                 // 把文件上传到hdfs
-                Path destPath = new Path(hdfsDestPath + "/" + props.getProperty(Constants.HDFS_FILE_PREFIX)+ UUID.randomUUID() + props.getProperty(Constants.HDFS_FILE_SUFFIX));
+                Path destPath = new Path(hdfsDestPath + "/" + props.getProperty(Constants.HDFS_FILE_PREFIX) + UUID.randomUUID() + props.getProperty(Constants.HDFS_FILE_SUFFIX));
                 fs.copyFromLocalFile(new Path(toUploadFile.getAbsolutePath()), destPath);
 
                 // 记录日志

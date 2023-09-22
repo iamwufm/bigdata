@@ -2,7 +2,6 @@ package com.bigdata.wordcount;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URI;
@@ -23,12 +22,13 @@ import java.util.Set;
 public class HdfsWordcountMain {
 
     public static void main(String[] args) throws Exception {
-
+        // 获取job.properties文件内同
         Properties pros = new Properties();
         pros.load(HdfsWordcountMain.class.getClassLoader().getResourceAsStream("job.properties"));
         Path input = new Path(pros.getProperty("INPUT_PATH"));
         Path output = new Path(pros.getProperty("OUTPUT_PATH"));
 
+        // 创建mapper对象
         Class<?> mapper_class = Class.forName(pros.getProperty("MAPPER_CLASS"));
         Mapper mapper = (Mapper) mapper_class.newInstance();
 
@@ -78,7 +78,6 @@ public class HdfsWordcountMain {
         fs.close();
 
         System.out.println("恭喜！数据统计完成.....");
-
 
     }
 }

@@ -17,8 +17,8 @@ public class Constants {
     // 采集日志的前缀名称
     public static final String LOG_LEGAL_PREFIX = "LOG_LEGAL_PREFIX";
     // hdfs的uri
-	public static final String HDFS_URI = "HDFS_URI";
-	// HDFS存储路径
+    public static final String HDFS_URI = "HDFS_URI";
+    // HDFS存储路径
     public static final String HDFS_DEST_BASE_DIR = "HDFS_DEST_BASE_DIR";
     // HDFS的文件的前缀
     public static final String HDFS_FILE_PREFIX = "HDFS_FILE_PREFIX";

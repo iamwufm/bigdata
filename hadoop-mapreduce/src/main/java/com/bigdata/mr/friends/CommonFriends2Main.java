@@ -1,7 +1,7 @@
 package com.bigdata.mr.friends;
 
-import com.sun.deploy.util.StringUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;

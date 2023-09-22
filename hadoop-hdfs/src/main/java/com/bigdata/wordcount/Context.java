@@ -15,11 +15,11 @@ public class Context {
         contexMap.put(key, value);
     }
 
-    public Object get(Object key){
+    public Object get(Object key) {
         return contexMap.get(key);
     }
 
-    public HashMap<Object,Object> getContexMap(){
+    public HashMap<Object, Object> getContexMap() {
         return contexMap;
     }
 }

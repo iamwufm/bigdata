@@ -21,7 +21,7 @@ public class PropertyHolderHungery {
         }
     }
 
-    public static Properties getProps() throws Exception{
+    public static Properties getProps() throws Exception {
         return prop;
     }
 }

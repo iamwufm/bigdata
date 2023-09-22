@@ -5,6 +5,6 @@ package com.bigdata.wordcount;
  * Author:wfm
  * Desc:
  */
-public interface  Mapper {
-    public void map(String line,Context context);
+public interface Mapper {
+    public void map(String line, Context context);
 }

@@ -1,6 +1,7 @@
 package com.bigdata.mr.wordCount;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -58,13 +59,13 @@ public class JobSubmitterWindowsToYarn {
         job.setOutputValueClass(IntWritable.class);
 
         // 如果输出路径存在，则删除
-//        Path output = new Path("/output");
-//        FileSystem fs = FileSystem.get(new URI("hdfs://hadoop101:8020"), conf, "hadoop");
-//        if (fs.exists(output)) {
-//            fs.delete(output, true);
-//        }
-//
-//        fs.close();
+        Path output = new Path("/output");
+        FileSystem fs = FileSystem.get(conf);
+        if (fs.exists(output)) {
+            fs.delete(output, true);
+        }
+
+        fs.close();
 
         // 2.4 本次job要处理的输入数据集所在路径、最终结果的输出路径
         FileInputFormat.setInputPaths(job, new Path("/input"));

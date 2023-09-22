@@ -3,6 +3,7 @@ package com.bigdata.test;
 
 
 import org.apache.commons.io.FileUtils;
+import org.apache.directory.api.util.OsgiUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,11 +15,19 @@ import java.io.IOException;
  */
 public class Demo1 {
     public static void main(String[] args) throws IOException {
-        // 判断输出目录是否存在，存在删除
-        File output = new File("C:\\Alearning\\data\\mr\\wc\\output");
-        if (output.exists()){
-            System.out.println("hahah");
-            FileUtils.deleteDirectory(output);
-        }
+        int num1 = 2;
+        System.out.println("hello java");
+        int num2 = 4;
+        System.out.println("hello python");
+
+        // 调用方法
+        int sum = getSum(num1, num2);
+        System.out.println(sum);
+    }
+
+    public static int getSum(int num1,int num2){
+        System.out.println("hello shell");
+        System.out.println("hello hadoop");
+        return num1 + num2;
     }
 }
