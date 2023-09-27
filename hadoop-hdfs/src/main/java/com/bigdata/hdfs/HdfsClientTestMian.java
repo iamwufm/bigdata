@@ -16,7 +16,7 @@ import java.util.Arrays;
 /**
  * Date:2023/8/31
  * Author:wfm
- * Desc: 使用单元测试包（junit）来操作hdfs。可以直接在本类中run。
+ * Desc: 使用单元测试包（junit）来操作hdfs。
  * 点击对应test的方法，都先执行before,点击的test,after
  * 1.创建文件夹
  * 2.文件上传

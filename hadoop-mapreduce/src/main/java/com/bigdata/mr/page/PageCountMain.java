@@ -20,6 +20,15 @@ import java.util.Iterator;
  * Date:2023/9/7
  * Author:wfm
  * Desc:统计网址的访问次数
+ * <p>
+ * 1.输入数据
+ * 2017/07/28 qq.com/a
+ * 2017/07/28 qq.com/bx
+ * 2017/07/28 qq.com/a
+ * <p>
+ * 2.输出数据
+ * qq.com/a 2
+ * qq.com/bx 1
  */
 public class PageCountMain {
 

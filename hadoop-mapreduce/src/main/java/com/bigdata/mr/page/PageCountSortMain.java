@@ -19,6 +19,16 @@ import java.io.IOException;
  * Date:2023/9/7
  * Author:wfm
  * Desc:对网址的访问次数进行降序排序（输入数据已经统计好每个网页的访问次数）
+ *
+ * 基于com.bigdata.mr.page.PageCountMain的结果（统计网页访问次数）
+ *
+ * 2.输入数据
+ * qq.com/bx 1
+ * qq.com/a 2
+ *
+ * 2.输出数据
+ * qq.com/a 2
+ * qq.com/bx 1
  */
 public class PageCountSortMain {
     public static void main(String[] args) throws Exception {

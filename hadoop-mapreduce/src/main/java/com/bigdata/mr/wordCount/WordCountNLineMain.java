@@ -5,24 +5,20 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.compress.SnappyCodec;
-import org.apache.hadoop.io.compress.BZip2Codec;
-import org.apache.hadoop.io.compress.CompressionCodec;
-import org.apache.hadoop.io.compress.GzipCodec;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.NLineInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
 import java.io.File;
 
 /**
  * Date:2023/9/5
  * Author:wfm
  * Desc:单词统计主主入口
- * 测试压缩格式
- * map端输出：snappy压缩
- * reduce端压缩：gzip或bzip
- *
- *
+ * 测试输入格式NLineInputFormat(按行切片)
+ * 控制台搜索：number of splits:5
+ * <p>
  * 以空格切分，统计单词出现次数
  * 准备：
  * 在hdfs的/input准备几份数据
@@ -31,7 +27,7 @@ import java.io.File;
  * <p>
  * 文件系统用本地系统conf.set("fs.defaultFS", "file:///")
  */
-public class WordcountCompression {
+public class WordCountNLineMain {
 
     public static void main(String[] args) throws Exception {
 
@@ -39,25 +35,19 @@ public class WordcountCompression {
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf);
 
-        //-------------------------开启map端输出压缩-------------------------
-        conf.setBoolean("mapreduce.map.output.compress", true);
-        conf.setClass("mapreduce.map.output.compress.codec", SnappyCodec.class, CompressionCodec.class);
-
-        //-------------------------开启reduce端输出压缩-------------------------
-        FileOutputFormat.setCompressOutput(job, true);
-        FileOutputFormat.setOutputCompressorClass(job, BZip2Codec.class);
-// FileOutputFormat.setOutputCompressorClass(job, GzipCodec.class);
-
         // 2.封装参数
         // 2.1 jar包所在位置
-        job.setJarByClass(WordcountCompression.class);
+        job.setJarByClass(WordCountNLineMain.class);
+        //----------------------测试输入格式------------------------------
+        // 设置输入格式
+        job.setInputFormatClass(NLineInputFormat.class);
+        // 设置每三行一个切片
+        NLineInputFormat.setNumLinesPerSplit(job, 3);
 
         // 2.2 本次job所要调用的mapper实现类、reduce实现类
         job.setMapperClass(WordcountMapper.class);
         job.setReducerClass(WordcountReducer.class);
 
-        // 设置maptask端的局部聚合逻辑类
-//        job.setCombinerClass(WordcountReducer.class);
 
         // 2.3 本次job的mapper实现类、reduce实现类产生的结果数据的key、value类型
         job.setMapOutputKeyClass(Text.class);
