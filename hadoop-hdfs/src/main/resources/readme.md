@@ -2,6 +2,8 @@
 
 （1）增删查改操作：com.bigdata.hdfs.HdfsClientTestMian
 
+---
+
 （2）把日志上传到hdfs：com.bigdata.datacollect.DataCollectMain
 
 模拟产生日志的代码在web-log模块下的com.bigdata.CollectLogMain
@@ -18,7 +20,7 @@
 
 注意点：业务服务器可能有多台（hdfs上地文件名不能直接用日志服务器上地文件名）
 ```
-
+---
 （3）统计单词次数：com.bigdata.wordcount.HdfsWordcountMain
 
 ```txt
@@ -29,3 +31,7 @@
 
 把统计结果放在hdfs某目录下
 ```
+
+---
+
+高可用：com.bigdata.hdfs.HAHdfsClientMian
