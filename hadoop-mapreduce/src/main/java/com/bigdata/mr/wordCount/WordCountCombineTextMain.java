@@ -8,6 +8,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.CombineTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.File;
@@ -41,6 +42,7 @@ public class WordCountCombineTextMain {
         job.setJarByClass(WordCountCombineTextMain.class);
         //----------------------测试输入格式------------------------------
         job.setInputFormatClass(CombineTextInputFormat.class);
+//        job.setInputFormatClass(TextInputFormat.class);
         CombineTextInputFormat.setMaxInputSplitSize(job, 4194304);// 虚拟存储切片最大值设置4m
 
         // 2.2 本次job所要调用的mapper实现类、reduce实现类
